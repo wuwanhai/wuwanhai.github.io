@@ -7,7 +7,7 @@
   <meta name="keyword" content="">
   <title>
     
-      JavaScript 的深拷贝与浅拷贝 | 时不时，求下是！
+      JavaScript的作用域 | 时不时，求下是！
     
   </title>
   <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
@@ -94,20 +94,31 @@
 </header>
 
     <div id="article-banner">
-  <h2>JavaScript 的深拷贝与浅拷贝</h2>
+  <h2>JavaScript的作用域</h2>
 </div>
 
 <main class="app-body">
   <article class="post-article">
-    <section class="markdown-content"   dir=""><h2 id=""><a href="#" class="headerlink" title=""></a></h2></section>
+    <section class="markdown-content"   dir=""><h4 id="变量作用域"><a href="#变量作用域" class="headerlink" title="变量作用域"></a>变量作用域</h4><p>比如说我们写一个函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> age = <span class="number">11</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">t1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(age);  <span class="comment">//11  </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//这个不会有问题</span></span><br><span class="line"><span class="keyword">var</span> age = <span class="number">11</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">t1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> age = <span class="number">22</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(age);  <span class="comment">//22</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//这里已经出现规律了</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> age = <span class="number">11</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">t1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> age = <span class="number">22</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">t2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="built_in">console</span>.log(age);  <span class="comment">//22</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在JavaScript中，函数嵌套是非常普遍的，那么，在函数的嵌套中，变量是如何寻找的呢？<br>上面的例子中已经总结出来了。</p>
+<blockquote>
+<p>1、首先在函数内部寻找<br>2、寻找不到，则往外层<br>3、直到 Window 对象</p>
+</blockquote>
+<h4 id="var-的作用"><a href="#var-的作用" class="headerlink" title="var 的作用"></a>var 的作用</h4><p>var的作用是什么呢？是声明。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">&#x27;wanhai&#x27;</span>;  <span class="comment">//声明并赋值</span></span><br></pre></td></tr></table></figure>
+<p>如果我们，不加var呢？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">name = <span class="string">&#x27;wanhai&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">t1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    name = <span class="string">&#x27;haitao&#x27;</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(name); <span class="comment">// haitao</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">t1(); <span class="comment">//haitao</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(name); <span class="comment">// haitao</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这里的全局变量的值莫名的就被改变成了 <strong>haitao</strong>。所以，不加var的后果，就是全局变量被污染。</p>
+</section>
     
-    <p class="post-date" dir="">January 20, 2021</p>
+    <p class="post-date" dir="">June 8, 2018</p>
 
     
       <div class="tags"    dir="">
         
-  <a href="/tags#JavaScript" >
-    <span class="tag-code">JavaScript</span>
+  <a href="/tags#javascript" >
+    <span class="tag-code">javascript</span>
   </a>
 
       </div>
@@ -120,7 +131,7 @@
       <script>
         var disqus_shortname = 'bluemixme';
         
-        var disqus_url = 'http://example.com/2021/01/20/JavaScript-的深拷贝与浅拷贝/';
+        var disqus_url = 'http://example.com/2018/06/08/JavaScript的作用域/';
         
         (function(){
           var dsq = document.createElement('script');
@@ -141,7 +152,7 @@
 
 <script>
   (function () {
-    var url = 'http://example.com/2021/01/20/JavaScript-的深拷贝与浅拷贝/';
+    var url = 'http://example.com/2018/06/08/JavaScript的作用域/';
     $('#article-banner').geopattern(url)
     $('.header').removeClass('fixed-header')
 
